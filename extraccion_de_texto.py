@@ -1,7 +1,6 @@
-import pdfplumber
-
 import re
 
+import pdfplumber
 
 ROMAN_SECTION_PATTERN = re.compile(
     r"\n\s*((?:I|II|III|IV|V|VI|VII|VIII|IX)\.\s+.+?)\n(?=[A-ZÁÉÍÓÚÑ])",
@@ -40,13 +39,13 @@ def limpiar_texto(texto: str) -> str:
     return texto.strip()
 
 
-def extraer_secciones(texto: str) -> dict[str, str]:
+def extraer_secciones(texto: str) -> list[str]:
     matches = list(ROMAN_SECTION_PATTERN.finditer(texto))
 
-    secciones: dict[str, str] = {}
+    secciones: list[str] = []
 
     for i, match in enumerate(matches):
-        section_title = match.group(1).strip()
+        _section_title = match.group(1).strip()
         start = match.end()
 
         if i + 1 < len(matches):
@@ -55,6 +54,6 @@ def extraer_secciones(texto: str) -> dict[str, str]:
             end = len(texto)
 
         section_content = texto[start:end].strip()
-        secciones[section_title] = section_content
+        secciones.append(section_content)
 
     return secciones

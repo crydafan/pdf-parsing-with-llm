@@ -31,3 +31,10 @@ class ExperienciaLaboral(BaseModel):
         None,
         description="El año de fin de la experiencia laboral en formato YYYY (si actualmente trabaja allí, puede dejarse vacío)",
     )
+
+
+class ExperienciasLaborales(BaseModel):
+    experiencia_laboral: list[ExperienciaLaboral] = Field(
+        ...,
+        description="Una lista de experiencias laborales del candidato",
+    )

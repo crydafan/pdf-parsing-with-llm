@@ -24,3 +24,10 @@ class Estudio(BaseModel):
         ...,
         description="Notas adicionales sobre los estudios del candidato. Extraer directamente de los datos, sin interpretación ni resumen",
     )
+
+
+class Estudios(BaseModel):
+    estudios: list[Estudio] = Field(
+        ...,
+        description="Una lista de estudios del candidato",
+    )

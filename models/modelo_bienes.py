@@ -22,13 +22,15 @@ class DesgloseIngresos(BaseModel):
 
 
 class BienInmueble(BaseModel):
-    tipo: str = Field(..., description="El tipo de bien inmueble")
+    tipo_de_bien: str = Field(
+        ..., description="El tipo de bien inmueble (por ejemplo registro de predios)"
+    )
     direccion: str = Field(..., description="La dirección del bien inmueble")
     valor_estimado: float = Field(
         ..., description="El valor estimado del bien inmueble"
     )
-    valor_declarado: float = Field(
-        ..., description="El valor declarado por el candidato del bien inmueble"
+    valor_autovaluo: float = Field(
+        ..., description="El valor autovaluo del bien inmueble"
     )
     inscrito_en_sunarp: bool = Field(
         ..., description="Indica si el bien inmueble está inscrito en SUNARP"
@@ -61,4 +63,20 @@ class ParticipacionSocietaria(BaseModel):
     informacion_adicional: Optional[str] = Field(
         None,
         description="Información adicional sobre la participación societaria. Extraer de los datos, sin interpretación ni resumen",
+    )
+
+
+class Bienes(BaseModel):
+    ingresos: list[DesgloseIngresos] = Field(
+        ..., description="La lista de ingresos del candidato"
+    )
+    bienes_inmuebles: list[BienInmueble] = Field(
+        ..., description="La lista de bienes inmuebles del candidato"
+    )
+    bienes_muebles: list[BienMueble] = Field(
+        ..., description="La lista de bienes muebles del candidato"
+    )
+    participaciones_societarias: list[ParticipacionSocietaria] = Field(
+        ...,
+        description="La lista de participaciones societarias del candidato. Si el candidato no tiene participaciones societarias, esta lista debe estar vacía",
     )

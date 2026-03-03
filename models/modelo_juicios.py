@@ -24,6 +24,13 @@ class Declaracion(BaseModel):
         description="La resolución, decisión o fallo emitida en relación con la declaración",
     )
     informacion_adicional: Optional[str] = Field(
-        None,
+        ...,
         description="Información adicional sobre la declaración. Extraer directamente de los datos, sin interpretación ni resumen",
+    )
+
+
+class Declaraciones(BaseModel):
+    juicios: list[Declaracion] = Field(
+        ...,
+        description="Una lista de declaraciones o antecedentes judiciales asociados al candidato. Si no se encuentran declaraciones, esta lista debe estar vacía.",
     )
