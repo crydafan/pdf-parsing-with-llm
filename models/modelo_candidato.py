@@ -11,7 +11,7 @@ class Sexo(str, Enum):
 
 
 class Candidato(BaseModel):
-    nombre: str = Field(..., description="Nombre del candidato")
+    nombre_completo: str = Field(..., description="Nombre completo del candidato")
     sexo: Sexo = Field(..., description="Sexo del candidato")
     fecha_nacimiento: str = Field(
         ..., description="Fecha de nacimiento del candidato en formato DD/MM/AAAA"

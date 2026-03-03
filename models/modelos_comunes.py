@@ -16,5 +16,5 @@ class Lugar(BaseModel):
     )
     direccion: Optional[str] = Field(
         ...,
-        description="La dirección del lugar (si está redactada o no disponible, puede dejarse vacía)",
+        description="La dirección del lugar. Si está redactada (por ejemplo con ********) o no disponible, puede omitirse",
     )
