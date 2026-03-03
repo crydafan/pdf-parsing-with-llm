@@ -1,31 +1,13 @@
 from enum import Enum
-from typing import Optional
 
 from pydantic import BaseModel, Field, computed_field, field_validator
+
+from models.modelos_comunes import Lugar
 
 
 class Sexo(str, Enum):
     MASCULINO = "masculino"
     FEMENINO = "femenino"
-
-
-class Lugar(BaseModel):
-    country: Optional[str] = Field(
-        ..., description="El pais donde se encuentra el lugar"
-    )
-    department: Optional[str] = Field(
-        ..., description="El departamento donde se encuentra el lugar"
-    )
-    province: Optional[str] = Field(
-        ..., description="La provincia donde se encuentra el lugar"
-    )
-    district: Optional[str] = Field(
-        ..., description="El distrito donde se encuentra el lugar"
-    )
-    address: Optional[str] = Field(
-        None,
-        description="La dirección del lugar (si está redactada o no disponible, puede dejarse vacía)",
-    )
 
 
 class Candidato(BaseModel):
