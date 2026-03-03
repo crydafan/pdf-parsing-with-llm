@@ -1,22 +1,14 @@
-# from enum import Enum
-
-# from models.modelo_trabajo import ExperienciaLaboral
-# from models.modelo_educacion import Estudio
-# from models.modelo_juicios import Declaracion
-# from models.modelo_bienes import BienMueble, BienInmueble, DesgloseIngresos
 from typing import Type, TypeVar
 
 from dotenv import load_dotenv
-from openai import OpenAI
+from openai import APIError, BadRequestError, OpenAI, RateLimitError
 from pydantic import BaseModel
 
-# from extraccion_de_texto import extraer_secciones, extraer_texto, limpiar_texto
 from models.modelo_bienes import Bienes
 from models.modelo_candidato import Candidato
+from models.modelo_educacion import Estudios
 from models.modelo_juicios import Declaraciones
 from models.modelo_trabajo import ExperienciasLaborales
-from models.modelo_educacion import Estudios
-
 
 load_dotenv()
 
@@ -24,40 +16,43 @@ load_dotenv()
 T = TypeVar("T", bound=BaseModel)
 
 
-"""
-class Seccion(Enum):
-    INFORMACION_PERSONAL = (0, Candidato)
-    EXPERIENCIA_LABORAL = (1, ExperienciaLaboral)
-    EDUCACION = (2, Estudio)
-    SENTENCIAS_JUDICIALES = (5, Declaracion)
-    # RENUNCIAS = (6,)
-    BIENES = (7,)
-"""
-
-
 cliente = OpenAI()
 
 
 def extraccion_estructurada(datos: str, modelo: Type[T]) -> T | None:
-    respuesta = cliente.responses.parse(
-        model="gpt-4.1",
-        temperature=0,
-        input=[
-            {
-                "role": "system",
-                "content": "Eres un asistente que extrae información de hojas de vida y la organiza en un formato estructurado.",
-            },
-            {
-                "role": "user",
-                "content": f"Extrae la información relevante de la siguiente hoja de vida. Devuelve toda la información en un formato estructurado. La hoja de vida es la siguiente:\n\n{datos}",
-            },
-        ],
-        text_format=modelo,
-    )
+    try:
+        respuesta = cliente.responses.parse(
+            model="gpt-4.1",
+            temperature=0,
+            input=[
+                {
+                    "role": "system",
+                    "content": "Eres un asistente que extrae información de hojas de vida y la organiza en un formato estructurado.",
+                },
+                {
+                    "role": "user",
+                    "content": f"Extrae la información relevante de la siguiente hoja de vida. Devuelve toda la información en un formato estructurado. La hoja de vida es la siguiente:\n\n{datos}",
+                },
+            ],
+            text_format=modelo,
+        )
+    except BadRequestError as e:
+        print(
+            f"[ERROR] Solicitud inválida para '{modelo.__name__}': {e.message} (código: {e.code})"
+        )
+        return None
+    except RateLimitError as e:
+        print(f"[ERROR] Límite de tasa alcanzado para '{modelo.__name__}': {e.message}")
+        return None
+    except APIError as e:
+        print(
+            f"[ERROR] Error de la API de OpenAI para '{modelo.__name__}': {e.message} (status: {e.code})"
+        )
+        return None
 
     resultado = respuesta.output_parsed
     if not resultado:
-        print("No se pudo parsear la respuesta.")
+        print(f"[WARN] No se pudo parsear la respuesta para '{modelo.__name__}'.")
         return None
 
     return resultado
