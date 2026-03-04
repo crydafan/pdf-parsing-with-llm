@@ -4,11 +4,11 @@ from dotenv import load_dotenv
 from openai import APIError, BadRequestError, OpenAI, RateLimitError
 from pydantic import BaseModel
 
-from models.modelo_bienes import Bienes
-from models.modelo_candidato import Candidato
-from models.modelo_educacion import Estudios
-from models.modelo_juicios import Declaraciones
-from models.modelo_trabajo import ExperienciasLaborales
+from modelos.modelo_bienes import Bienes
+from modelos.modelo_candidato import Candidato
+from modelos.modelo_educacion import Estudios
+from modelos.modelo_juicios import Declaraciones
+from modelos.modelo_trabajo import ExperienciasLaborales
 
 load_dotenv()
 

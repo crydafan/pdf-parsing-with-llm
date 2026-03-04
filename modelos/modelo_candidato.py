@@ -2,7 +2,7 @@ from enum import Enum
 
 from pydantic import BaseModel, Field, computed_field, field_validator
 
-from models.modelos_comunes import Lugar
+from modelos.modelos_comunes import Lugar
 
 
 class Sexo(str, Enum):

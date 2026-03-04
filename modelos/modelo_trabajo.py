@@ -2,7 +2,7 @@ from typing import Optional
 
 from pydantic import BaseModel, Field
 
-from models.modelos_comunes import Lugar
+from modelos.modelos_comunes import Lugar
 
 
 class Empresa(BaseModel):
