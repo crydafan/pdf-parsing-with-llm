@@ -1,35 +1,38 @@
-# Extracción de Hojas de Vida — Observa Perú
+# Candidate CV Extraction — Observa Perú
 
-Herramienta interna para extraer y estructurar automáticamente la información contenida en las hojas de vida de candidatos políticos, como parte del proyecto **Observa Perú**.
+An internal tool for automatically extracting and structuring information from political candidates' CVs as part of the **Observa Perú** project.
 
-## ¿Qué hace?
+## What does it do?
 
-Lee los PDFs de hojas de vida ubicados en `data/hojas-vida/`, los procesa con GPT-4.1 y genera un único archivo `candidatos.json` con los datos estructurados de todos los candidatos.
+The tool reads candidate CV PDFs located in `data/hojas-vida/`, processes them using GPT-4.1, and generates a single `candidatos.json` file containing structured data for all candidates.
 
-La información extraída por candidato incluye:
+The extracted information for each candidate includes:
 
-- Datos personales (nombre, sexo, fecha de nacimiento, lugar de nacimiento, residencia)
-- Experiencia laboral
-- Estudios
-- Sentencias y juicios
-- Bienes (inmuebles, muebles, participaciones societarias e ingresos)
+* Personal information (name, sex, date of birth, place of birth, residence)
+* Work experience
+* Education
+* Court rulings and legal proceedings
+* Assets (real estate, movable property, corporate holdings, and income)
 
-## Uso
+## Usage
 
 ```bash
 python main.py
 ```
 
-El archivo `candidatos.json` se genera automáticamente al finalizar.
+The `candidatos.json` file is generated automatically once processing is complete.
 
-## Requisitos
+## Requirements
 
-- Python 3.11+
-- Una API key de OpenAI en un archivo `.env`:
-  ```
-  OPENAI_API_KEY=sk-...
-  ```
-- Dependencias:
-  ```bash
-  uv sync
-  ```
+* Python 3.11+
+* An OpenAI API key stored in a `.env` file:
+
+```env
+OPENAI_API_KEY=sk-...
+```
+
+* Dependencies:
+
+```bash
+uv sync
+```
